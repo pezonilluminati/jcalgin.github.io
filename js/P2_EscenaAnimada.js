@@ -13,7 +13,8 @@
 /*******************
  * TO DO: Cargar los modulos necesarios
  *******************/
-
+import * as THREE from "../lib/three.module.js";
+import { GLTFLoader } from "../lib/GLTFLoader.module.js";
 // Variables de consenso
 let renderer, scene, camera;
 
@@ -21,6 +22,10 @@ let renderer, scene, camera;
 /*******************
  * TO DO: Variables globales de la aplicacion
  *******************/
+
+// Otras globales
+let esferaCubo;
+let angulo = 0;
 
 // Acciones
 init();
@@ -36,7 +41,8 @@ function init()
     /*******************
     * TO DO: Completar el motor de render y el canvas
     *******************/
-
+    document.getElementById('container').appendChild(renderer.domElement);
+    scene.background = new THREE.Color(0.5, 0.5, 0.5);
     // Escena
     scene = new THREE.Scene();
     
@@ -46,12 +52,37 @@ function init()
     /*******************
     * TO DO: Añadir manejador de camara (OrbitControls)
     *******************/
+
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0.5, 2, 7);
+    cameraControls = new OrbitControls(camera, renderer.domElement);
+    cameraControls.target.set(0, 1, 0);
     camera.lookAt( new THREE.Vector3(0,1,0) );
 }
 
 function loadScene()
 {
-    const material = new THREE.MeshNormalMaterial( {wireframe:false} );
+    const material = new THREE.MeshBasicMaterial({ color: 'yellow', wireframe: true });
+
+    const geoCubo = new THREE.BoxGeometry(2, 2, 2);
+    const geoEsfera = new THREE.SphereGeometry(1, 20, 20);
+
+    const cubo = new THREE.Mesh(geoCubo, material);
+    const esfera = new THREE.Mesh(geoEsfera, material);
+
+    // Suelo
+    const suelo = new THREE.Mesh(new THREE.PlaneGeometry(10, 10, 10, 10), material);
+    suelo.rotation.x = -Math.PI / 2;
+    scene.add(suelo);
+
+    // Importar un modelo en json
+    const loader = new THREE.ObjectLoader();
+
+    loader.load('models/soldado/soldado.json',
+        function (objeto) {
+            cubo.add(objeto);
+            objeto.position.y = 1;
+        }
 
     /*******************
     * TO DO: Misma escena que en la practica anterior
