@@ -15,6 +15,9 @@
  *******************/
 import * as THREE from "../lib/three.module.js";
 import { GLTFLoader } from "../lib/GLTFLoader.module.js";
+import { OrbitControls } from "../lib/OrbitControls.module.js";
+import { TWEEN } from "../lib/tween.module.min.js";
+import { GUI } from "../lib/lil-gui.module.min.js";
 // Variables de consenso
 let renderer, scene, camera;
 
@@ -107,6 +110,16 @@ function update(delta)
     /*******************
     * TO DO: Actualizar tween
     *******************/
+    angulo += 0.01;
+    //esferaCubo.rotation.y = angulo;
+
+    // Lectura de controles en GUI (es mejor hacerlo con onChange)
+    cubo.position.set(-1 - effectController.separacion / 2, 0, 0);
+    esfera.position.set(1 + effectController.separacion / 2, 0, 0);
+    cubo.material.setValues({ color: effectController.colorsuelo });
+    esferaCubo.rotation.y = effectController.giroY * Math.PI / 180;
+    TWEEN.update();
+}
 }
 
 function render(delta)
