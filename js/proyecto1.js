@@ -72,7 +72,7 @@ function changeCameraPosition(t) {
 
 function gana(){
     new TWEEN.Tween(camera.position)
-    .to({x: 0, y: 7, z: 0}, 1000) // Mover a (0,7,0) en 7500ms
+    .to({x: 0, y: 7, z: 0}, 5000) // Mover a (0,7,0) en 7500ms
     .easing(TWEEN.Easing.Quadratic.Out) // Easing para suavizar la animación
     .onStart(function() {
         for (let i = 0; i < 8; i++) {
@@ -157,7 +157,7 @@ function init()
 
     
     new TWEEN.Tween(camera.position)
-        .to({x: 0, y: 7, z: 0}, 1000) // Mover a (0,7,0) en 7500ms
+        .to({x: 0, y: 7, z: 0}, 7000) // Mover a (0,7,0) en 7500ms
         .easing(TWEEN.Easing.Quadratic.Out) // Easing para suavizar la animación
         .onStart(function() {
         
